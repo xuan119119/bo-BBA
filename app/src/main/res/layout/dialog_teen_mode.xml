@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/teenRoot"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:paddingTop="24dp"
+    android:paddingBottom="18dp"
+    android:background="@drawable/bg_teen_dialog">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp">
+
+        <View
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/bg_teen_icon" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="✓"
+            android:textColor="@android:color/white"
+            android:textSize="36sp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvTeenContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="18dp"
+        android:text="为呵护未成年人健康成长，有播特别推出青少年模式，该模式下部分功能无法正常使用。请监护人主动选择，并设置监护密码。"
+        android:textColor="#333333"
+        android:textSize="13sp"
+        android:lineSpacingExtra="2dp" />
+
+    <TextView
+        android:id="@+id/btnIKnow"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:background="@drawable/bg_teen_primary_button"
+        android:text="我知道了"
+        android:textColor="@android:color/white"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/btnSetTeenMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="设置青少年模式"
+        android:textColor="#FF9C3B"
+        android:textSize="13sp" />
+
+</LinearLayout>
+
