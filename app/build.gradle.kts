@@ -36,6 +36,15 @@ android {
 }
 
 dependencies {
+    // Network
+// OkHttp 核心库
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    // OkHttp 日志拦截器（用于打印请求日志）
+    implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+    // Retrofit 核心库
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    // Retrofit Gson 转换器
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
