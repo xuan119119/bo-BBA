@@ -7,6 +7,10 @@ android {
     namespace = "com.bba.youbo_bba"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.bba.youbo_bba"
         minSdk = 27
@@ -32,9 +36,6 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
-    }
-    buildFeatures {
-        viewBinding = true
     }
 }
 
