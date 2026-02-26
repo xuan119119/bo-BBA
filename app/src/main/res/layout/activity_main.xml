@@ -7,12 +7,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <!--上传-->
-    <!--下载-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="HelloWorld"
+        android:text="第一次修改122"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
