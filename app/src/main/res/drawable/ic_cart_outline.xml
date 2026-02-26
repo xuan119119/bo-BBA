@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <!-- 轮子 -->
+    <path
+        android:fillColor="#666666"
+        android:pathData="M8,19a1.5,1.5 0 1,0 1.5,1.5A1.5,1.5 0 0,0 8,19z" />
+    <path
+        android:fillColor="#666666"
+        android:pathData="M17,19a1.5,1.5 0 1,0 1.5,1.5A1.5,1.5 0 0,0 17,19z" />
+
+    <!-- 车身 -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#666666"
+        android:strokeWidth="1.5"
+        android:strokeLineJoin="round"
+        android:pathData="M4,6h2l1.2,8.5A1.5,1.5 0 0,0 8.7,16h7.6a1.5,1.5 0 0,0 1.5,-1.3L19,9H7.2" />
+
+    <!-- 把手 -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#666666"
+        android:strokeWidth="1.5"
+        android:strokeLineCap="round"
+        android:pathData="M5,6L4,3.5" />
+
+</vector>
+
