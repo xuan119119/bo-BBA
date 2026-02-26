@@ -7,6 +7,10 @@ android {
     namespace = "com.bba.youbo_bba"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.bba.youbo_bba"
         minSdk = 27
@@ -50,7 +54,13 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
+    implementation(libs.activity.ktx)
+    implementation(libs.fragment.ktx)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.lifecycle.livedata.ktx)
+    implementation(libs.lifecycle.runtime.ktx)
+    implementation(libs.kotlinx.coroutines.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
