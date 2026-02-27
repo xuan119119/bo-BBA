@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_youbo"
+        android:icon="@drawable/ic_youbo"
+        android:title="有播" />
+    <item
+        android:id="@+id/nav_haokan"
+        android:icon="@drawable/ic_haokan"
+        android:title="好看" />
+    <item
+        android:id="@+id/nav_message"
+        android:icon="@drawable/ic_message"
+        android:title="消息" />
+    <item
+        android:id="@+id/nav_mine"
+        android:icon="@drawable/ic_mine"
+        android:title="我的" />
+</menu>

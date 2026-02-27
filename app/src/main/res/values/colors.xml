@@ -2,4 +2,17 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Agreement dialog colors (match screenshot) -->
+    <color name="agreement_title">#2B2B2B</color>
+    <color name="agreement_body">#8A8A8A</color>
+    <color name="agreement_link">#2AA7D9</color>
+    <color name="agreement_divider">#E6E6E6</color>
+    <color name="agreement_btn_secondary">#9A9A9A</color>
+    <color name="agreement_btn_primary">#FF8A00</color>
+
+    <!-- Bottom Navigation -->
+    <color name="bottom_nav_bg">#F5F5F5</color>
+    <color name="bottom_nav_item">#616161</color>
+    <color name="bottom_nav_item_selected">#FF8A00</color>
 </resources>
