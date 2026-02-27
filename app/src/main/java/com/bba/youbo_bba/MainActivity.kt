@@ -6,6 +6,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.WindowManager
+import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -118,12 +120,33 @@ class MainActivity : AppCompatActivity() {
 
         val btnIKnow = dialog.findViewById<TextView>(R.id.btnIKnow)
         val btnSetTeenMode = dialog.findViewById<TextView>(R.id.btnSetTeenMode)
+        val cbNoMoreTips = dialog.findViewById<CheckBox>(R.id.cbNoMoreTips)
+        val layoutNoMoreTips = dialog.findViewById<LinearLayout>(R.id.layoutNoMoreTips)
+
+        // 设置点击整个区域切换复选框状态
+        layoutNoMoreTips?.setOnClickListener {
+            cbNoMoreTips?.isChecked = !(cbNoMoreTips?.isChecked ?: false)
+        }
 
         val confirmAndDismiss = {
-            prefs.edit().putBoolean(KEY_TEEN_MODE_KNOWN, true).apply()
+            // 根据复选框状态决定是否永久隐藏
+            val shouldNotShowAgain = cbNoMoreTips?.isChecked ?: false
+            prefs.edit()
+                .putBoolean(KEY_TEEN_MODE_KNOWN, shouldNotShowAgain)
+                .putBoolean(KEY_TEEN_MODE_NO_MORE_TIPS, shouldNotShowAgain)
+                .apply()
             dialog.dismiss()
             // 青少年弹窗关闭后，再尝试展示粉丝礼包弹窗
             maybeShowFansRewardDialog()
+        }
+
+        // 检查是否曾经选择过"不再提示"
+        val hasChosenNoMore = prefs.getBoolean(KEY_TEEN_MODE_NO_MORE_TIPS, false)
+        if (hasChosenNoMore) {
+            // 如果之前选择了不再提示，则自动勾选并设置已知状态
+            cbNoMoreTips?.isChecked = true
+            confirmAndDismiss()
+            return
         }
 
         btnIKnow?.setOnClickListener {
@@ -222,6 +245,7 @@ class MainActivity : AppCompatActivity() {
         private const val TAG_MESSAGE = "MessageFragment"
         private const val TAG_MINE = "MineFragment"
         private const val KEY_TEEN_MODE_KNOWN = "teen_mode_known"
+        private const val KEY_TEEN_MODE_NO_MORE_TIPS = "teen_mode_no_more_tips"
         private const val KEY_FANS_REWARD_KNOWN = "fans_reward_known"
     }
 }

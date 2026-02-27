@@ -60,5 +60,36 @@
         android:textColor="#FF9C3B"
         android:textSize="13sp" />
 
+    <!-- 下次不再提示选项 -->
+    <LinearLayout
+        android:id="@+id/layoutNoMoreTips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginTop="16dp"
+        android:padding="8dp"
+        android:background="#F5F5F5"
+        android:clickable="true"
+        android:focusable="true">
+
+        <CheckBox
+            android:id="@+id/cbNoMoreTips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:buttonTint="#FF9C3B" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="下次进入不再提示"
+            android:textColor="#666666"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
 </LinearLayout>
 
