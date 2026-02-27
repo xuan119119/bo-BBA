@@ -11,7 +11,10 @@
         android:layout_height="wrap_content"
         android:background="@drawable/round_corner"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        >
         <!-- 标题 -->
         <TextView
             android:id="@+id/tvTitle"
