@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.view.WindowManager
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
@@ -138,6 +139,8 @@ class MainActivity : AppCompatActivity() {
         setDialogWidth(dialog)
     }
 
+    private var countdownTimer: CountDownTimer? = null
+
     private fun maybeShowFansRewardDialog() {
         val hasKnown = prefs.getBoolean(KEY_FANS_REWARD_KNOWN, false)
         if (hasKnown) return
@@ -149,8 +152,15 @@ class MainActivity : AppCompatActivity() {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         val btnClose = dialog.findViewById<TextView>(R.id.btnCloseFans)
+        val btnOpenVip = dialog.findViewById<TextView>(R.id.btnOpenVip)
+        val btnLater = dialog.findViewById<TextView>(R.id.btnLater)
+        val tvCountdown = dialog.findViewById<TextView>(R.id.tvCountdown)
+
+        // 启动倒计时
+        startCountdown(tvCountdown)
 
         val confirmAndDismiss = {
+            countdownTimer?.cancel()
             prefs.edit().putBoolean(KEY_FANS_REWARD_KNOWN, true).apply()
             dialog.dismiss()
         }
@@ -159,8 +169,43 @@ class MainActivity : AppCompatActivity() {
             confirmAndDismiss()
         }
 
+        btnOpenVip?.setOnClickListener {
+            // TODO: 跳转到VIP开通页面
+            confirmAndDismiss()
+        }
+
+        btnLater?.setOnClickListener {
+            confirmAndDismiss()
+        }
+
+        dialog.setOnDismissListener {
+            countdownTimer?.cancel()
+        }
+
         dialog.show()
         setDialogWidth(dialog)
+    }
+
+    private fun startCountdown(textView: TextView?) {
+        countdownTimer?.cancel()
+        
+        // 设置24小时倒计时（实际项目中应该从服务器获取剩余时间）
+        val totalTime = 24 * 60 * 60 * 1000L // 24小时
+        
+        countdownTimer = object : CountDownTimer(totalTime, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val hours = (millisUntilFinished / (1000 * 60 * 60)).toInt()
+                val minutes = ((millisUntilFinished / (1000 * 60)) % 60).toInt()
+                val seconds = ((millisUntilFinished / 1000) % 60).toInt()
+                
+                val timeString = String.format("%02d:%02d:%02d", hours, minutes, seconds)
+                textView?.text = timeString
+            }
+            
+            override fun onFinish() {
+                textView?.text = "00:00:00"
+            }
+        }.start()
     }
 
     private fun setDialogWidth(dialog: AppCompatDialog) {
