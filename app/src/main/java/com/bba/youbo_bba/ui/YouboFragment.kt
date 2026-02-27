@@ -1,14 +1,15 @@
 package com.bba.youbo_bba.ui
 
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import com.bba.youbo_bba.databinding.FragmentYouboBinding
-import com.bba.youbo_bba.viewmodel.YouboViewModel
 
 /**
  * 有播 Fragment (MVVM)
@@ -18,8 +19,31 @@ class YouboFragment : Fragment() {
     private var _binding: FragmentYouboBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: YouboViewModel by viewModels()
 
+    private fun initSearch() {
+        fun doSearch() {
+            val keyword = binding.etSearch.text.toString().trim()
+            if (keyword.isEmpty()) {
+                Toast.makeText(requireContext(), "请输入搜索内容", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "搜索：$keyword", Toast.LENGTH_SHORT).show()
+                // TODO: 在这里接入真正的搜索逻辑
+            }
+        }
+
+        binding.btnSearch.setOnClickListener { doSearch() }
+
+        binding.etSearch.setOnEditorActionListener { _, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
+                (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP)
+            ) {
+                doSearch()
+                true
+            } else {
+                false
+            }
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,15 +56,13 @@ class YouboFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initTabs()
+        initSearch()
         observeUiState()
-        viewModel.loadData()
+
     }
 
     private fun observeUiState() {
-        viewModel.uiState.observe(viewLifecycleOwner) { state ->
-            // 保留与 ViewModel 的绑定，如需可传递给子 Fragment 使用
-            binding.tvContent.text = state.content
-        }
+
     }
 
     private fun initTabs() {

@@ -29,33 +29,10 @@ class YouboFeaturedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initSearch()
+
     }
 
-    private fun initSearch() {
-        fun doSearch() {
-            val keyword = binding.etSearch.text.toString().trim()
-            if (keyword.isEmpty()) {
-                Toast.makeText(requireContext(), "请输入搜索内容", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(requireContext(), "搜索：$keyword", Toast.LENGTH_SHORT).show()
-                // TODO: 在这里接入真正的搜索逻辑
-            }
-        }
 
-        binding.btnSearch.setOnClickListener { doSearch() }
-
-        binding.etSearch.setOnEditorActionListener { _, actionId, event ->
-            if (actionId == EditorInfo.IME_ACTION_SEARCH ||
-                (event?.keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_UP)
-            ) {
-                doSearch()
-                true
-            } else {
-                false
-            }
-        }
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
