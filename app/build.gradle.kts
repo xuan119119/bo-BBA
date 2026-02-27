@@ -49,7 +49,8 @@ dependencies {
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     // Retrofit Gson 转换器
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    //kapt("com.github.bumptech.glide:compiler:4.16.0") // Kotlin 需要 kapt
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
