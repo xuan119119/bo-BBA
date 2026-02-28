@@ -5,6 +5,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.WindowManager
 import android.widget.CheckBox
 import android.widget.LinearLayout
@@ -15,6 +18,7 @@ import androidx.appcompat.app.AppCompatDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
+import cn.jpush.android.api.JPushInterface
 import com.bba.youbo_bba.databinding.ActivityMainBinding
 import com.bba.youbo_bba.ui.HaokanFragment
 import com.bba.youbo_bba.ui.MineFragment
@@ -36,7 +40,10 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        Handler(Looper.getMainLooper()).postDelayed({
+            val regId = JPushInterface.getRegistrationID(this)
+            Log.d("JPush_Manual", "手动获取RegistrationID：$regId")
+        }, 5000)
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
