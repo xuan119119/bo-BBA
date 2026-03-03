@@ -3,8 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.bba.youbo_bba.permission.JPUSH_MESSAGE" />
+    <permission
+        android:name="com.bba.youbo_bba.permission.JPUSH_MESSAGE"
+        android:protectionLevel="signature" />
     <application
+        android:name=".ExampleApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -14,7 +22,32 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.YouboBBA"
         tools:targetApi="31">
-
+        <provider
+            android:name="cn.jpush.android.service.DataProvider"
+            android:authorities="com.bba.youbo_bba.DataProvider"
+            android:exported="false" />
+        <receiver
+            android:name=".MyJPushReceiver"
+            android:enabled="true"
+        android:exported="false"
+            tools:ignore="MissingClass">
+        <intent-filter>
+            <action android:name="cn.jpush.android.intent.REGISTRATION" />
+            <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+            <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+            <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+            <action android:name="cn.jpush.android.intent.ACTION_RICHPUSH_CALLBACK" />
+            <category android:name="com.bba.youbo_bba" />  <!-- 替换为你的应用包名 -->
+        </intent-filter>
+    </receiver>
+        <service android:name=".MyJPushReceiver2"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":pushcore">
+            <intent-filter>
+                <action android:name="cn.jpush.android.service.JCommonService" />
+            </intent-filter>
+        </service>
         <activity
             android:name=".WelCome"
             android:exported="true">
@@ -28,6 +61,10 @@
         <activity
             android:name=".MainActivity"
             android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.YouboBBA" />
     </application>
 
 </manifest>

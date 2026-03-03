@@ -1,6 +1,8 @@
 package com.bba.youbo_bba.ui
 
 import android.os.Bundle
+import android.content.Context
+import android.content.Intent
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -62,7 +64,6 @@ class YouboFragment : Fragment() {
     }
 
     private fun observeUiState() {
-
     }
 
     private fun initTabs() {
@@ -74,10 +75,18 @@ class YouboFragment : Fragment() {
         binding.tabNearby.setOnClickListener { selectTab(Tab.NEARBY) }
 
         binding.ivLeftAction.setOnClickListener {
-            // TODO: 打开日历 / 关注等
+            if (!isLoggedIn()) {
+                startActivity(Intent(requireContext(), com.bba.youbo_bba.LoginActivity::class.java))
+            } else {
+                Toast.makeText(requireContext(), "已登录", Toast.LENGTH_SHORT).show()
+            }
         }
         binding.ivRightAction.setOnClickListener {
-            // TODO: 打开扫一扫 / 全屏等
+            if (!isLoggedIn()) {
+                startActivity(Intent(requireContext(), com.bba.youbo_bba.LoginActivity::class.java))
+            } else {
+                Toast.makeText(requireContext(), "已登录", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
@@ -107,6 +116,11 @@ class YouboFragment : Fragment() {
 
     private enum class Tab {
         FOLLOW, FEATURED, NEARBY
+    }
+
+    private fun isLoggedIn(): Boolean {
+        val sp = requireContext().getSharedPreferences("app_prefs", Context.MODE_PRIVATE)
+        return sp.getBoolean(com.bba.youbo_bba.LoginActivity.KEY_IS_LOGGED_IN, false)
     }
 
     override fun onDestroyView() {
