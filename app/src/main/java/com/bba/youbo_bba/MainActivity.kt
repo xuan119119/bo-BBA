@@ -5,20 +5,19 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
-import android.os.Looper
-import android.util.Log
+import android.view.View
 import android.view.WindowManager
 import android.widget.CheckBox
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import cn.jpush.android.api.JPushInterface
 import com.bba.youbo_bba.databinding.ActivityMainBinding
 import com.bba.youbo_bba.ui.HaokanFragment
 import com.bba.youbo_bba.ui.MineFragment
@@ -34,16 +33,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var activeFragment: Fragment? = null
+    private var selectedNavId: Int = R.id.nav_live
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        Handler(Looper.getMainLooper()).postDelayed({
-            val regId = JPushInterface.getRegistrationID(this)
-            Log.d("JPush_Manual", "手动获取RegistrationID：$regId")
-        }, 5000)
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -68,8 +64,8 @@ class MainActivity : AppCompatActivity() {
             activeFragment = youboFragment
         } else {
             activeFragment = supportFragmentManager.findFragmentByTag(
-                when (savedInstanceState.getInt(KEY_SELECTED_NAV, R.id.nav_youbo)) {
-                    R.id.nav_haokan -> TAG_HAOKAN
+                when (savedInstanceState.getInt(KEY_SELECTED_NAV, R.id.nav_live)) {
+                    R.id.nav_goods -> TAG_HAOKAN
                     R.id.nav_message -> TAG_MESSAGE
                     R.id.nav_mine -> TAG_MINE
                     else -> TAG_YOUBO
@@ -77,25 +73,71 @@ class MainActivity : AppCompatActivity() {
             ) ?: supportFragmentManager.findFragmentByTag(TAG_YOUBO)
         }
 
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            val fragment = when (item.itemId) {
-                R.id.nav_youbo -> supportFragmentManager.findFragmentByTag(TAG_YOUBO)
-                R.id.nav_haokan -> supportFragmentManager.findFragmentByTag(TAG_HAOKAN)
-                R.id.nav_message -> supportFragmentManager.findFragmentByTag(TAG_MESSAGE)
-                R.id.nav_mine -> supportFragmentManager.findFragmentByTag(TAG_MINE)
-                else -> null
-            }
-            if (fragment != null) switchFragment(fragment) else false
-        }
-        binding.bottomNavigation.selectedItemId =
-            savedInstanceState?.getInt(KEY_SELECTED_NAV, R.id.nav_youbo) ?: R.id.nav_youbo
+        setupBottomNav(savedInstanceState?.getInt(KEY_SELECTED_NAV, R.id.nav_live) ?: R.id.nav_live)
 
         maybeShowTeenModeDialog()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(KEY_SELECTED_NAV, binding.bottomNavigation.selectedItemId)
+        outState.putInt(KEY_SELECTED_NAV, selectedNavId)
+    }
+
+    private fun setupBottomNav(restoredNavId: Int) {
+        val root = binding.root
+        val selectedColor = getColor(R.color.bottom_nav_item_selected)
+        val unselectedColor = getColor(R.color.bottom_nav_item)
+
+        fun updateNavStyle(navId: Int) {
+            selectedNavId = navId
+            root.findViewById<ImageView>(R.id.iv_nav_live)?.setImageResource(
+                if (navId == R.id.nav_live) R.drawable.ic_live else R.drawable.ic_live_outline
+            )
+            root.findViewById<TextView>(R.id.tv_nav_live)?.setTextColor(
+                if (navId == R.id.nav_live) selectedColor else unselectedColor
+            )
+            root.findViewById<TextView>(R.id.tv_nav_goods)?.setTextColor(
+                if (navId == R.id.nav_goods) selectedColor else unselectedColor
+            )
+            root.findViewById<TextView>(R.id.tv_nav_message)?.setTextColor(
+                if (navId == R.id.nav_message) selectedColor else unselectedColor
+            )
+            root.findViewById<TextView>(R.id.tv_nav_mine)?.setTextColor(
+                if (navId == R.id.nav_mine) selectedColor else unselectedColor
+            )
+        }
+
+        root.findViewById<LinearLayout>(R.id.nav_live)?.setOnClickListener {
+            supportFragmentManager.findFragmentByTag(TAG_YOUBO)?.let { f ->
+                switchFragment(f)
+                updateNavStyle(R.id.nav_live)
+            }
+        }
+        root.findViewById<LinearLayout>(R.id.nav_goods)?.setOnClickListener {
+            supportFragmentManager.findFragmentByTag(TAG_HAOKAN)?.let { f ->
+                switchFragment(f)
+                updateNavStyle(R.id.nav_goods)
+            }
+        }
+        root.findViewById<View>(R.id.nav_center_plus)?.setOnClickListener {
+            Toast.makeText(this, "发布", Toast.LENGTH_SHORT).show()
+        }
+        root.findViewById<LinearLayout>(R.id.nav_message)?.setOnClickListener {
+            supportFragmentManager.findFragmentByTag(TAG_MESSAGE)?.let { f ->
+                switchFragment(f)
+                updateNavStyle(R.id.nav_message)
+            }
+        }
+        root.findViewById<LinearLayout>(R.id.nav_mine)?.setOnClickListener {
+            supportFragmentManager.findFragmentByTag(TAG_MINE)?.let { f ->
+                switchFragment(f)
+                updateNavStyle(R.id.nav_mine)
+            }
+        }
+
+        if (restoredNavId != R.id.nav_center_plus) {
+            updateNavStyle(restoredNavId)
+        }
     }
 
     private fun switchFragment(fragment: Fragment): Boolean {
